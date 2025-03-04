@@ -1,0 +1,36 @@
+name: Prueba
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Configurar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Instalar las dependencias
+        run: npm install
+
+      - name: Ejecutar los test
+        run: npm run test > test-results.txt 2>&1
+
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Test realizados"
+          commit_user_name: "FRANCISCO-BERMEJO-MELERO"
+          commit_author: "Fran"
